@@ -1,5 +1,5 @@
 """
-Experiment 1 — Replication of the testbed of Section 5.1 (Framinan et al., 2024).
+Experiment 1: Replication of the testbed of Section 5.1 (Framinan et al., 2024).
 
 Phase A (screening, Table 1 of the paper): 8 factors x 2 levels, R replicates,
           multi-factor ANOVA on CPU time, fill rate and minimum service level.
