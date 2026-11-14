@@ -1,0 +1,7 @@
+variant,fresh_cov,cpu,hit,fill
+corrected,FFC,4.236,0.019,0.709
+corrected,HFC,7.834,0.093,0.704
+corrected,MFC,9.804,0.185,0.697
+paper,FFC,12.859,0.389,0.623
+paper,HFC,12.552,0.389,0.611
+paper,MFC,13.622,0.389,0.604

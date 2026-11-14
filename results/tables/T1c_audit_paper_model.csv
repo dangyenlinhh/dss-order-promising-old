@@ -1,0 +1,2 @@
+Instances,Share with units assigned to unserved orders,Share with over-allocation (T_ij > o_ij),Mean model L,Mean true min SL,Share with L > 1,Mean |L - true L|
+512,0.59765625,0.609375,0.8967070312500001,0.5177734375,0.306640625,0.37893359375

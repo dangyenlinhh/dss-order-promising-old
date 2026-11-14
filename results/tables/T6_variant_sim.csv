@@ -1,0 +1,7 @@
+cfg_variant,policy,fill_rate,avg_sl_D,pct_cust_full,min_sl_D,over_units,unserved_units,cpu
+corrected,GO,0.794,0.769,0.794,0.0,0.0,0.0,4.864
+corrected,RE-NOCM,0.774,0.755,0.774,0.0,0.0,0.0,1.144
+corrected,RE,0.899,0.857,0.899,0.101,0.0,0.0,2.257
+paper,GO,0.785,0.746,0.785,0.0,505.792,2079.782,11.317
+paper,RE-NOCM,0.773,0.738,0.773,0.0,7925.123,6492.312,2.189
+paper,RE,0.897,0.852,0.897,0.104,5962.872,7859.351,3.083
