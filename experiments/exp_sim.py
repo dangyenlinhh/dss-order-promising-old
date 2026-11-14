@@ -1,5 +1,5 @@
 """
-Experiments 2 and 3 — multi-day simulation of the DSS (case-study replication + extensions).
+Experiments 2 and 3: multi-day simulation of the DSS (case-study replication + extensions).
 
 Exp 2 (replication of Section 5.2 / Figs. 6-8): FCFS, GO, RE-NOCM, RE with 4 and 5
           iterations per day.
