@@ -1,6 +1,6 @@
 """
 Analysis of all experiments: ANOVA tables, summary tables (CSV + Markdown) and
-figures (PNG, 200 dpi) ready to be inserted in the report.
+figures (PNG, 200 dpi) for the report.
 
 Usage: python experiments/analyze.py
 Reads results/*.csv, writes results/tables/*.csv, results/figures/*.png and
@@ -24,7 +24,7 @@ FIG = os.path.join(RES, "figures")
 os.makedirs(TAB, exist_ok=True)
 os.makedirs(FIG, exist_ok=True)
 
-# ---- chart style: reference categorical palette, fixed order, recessive axes ----
+# plot style
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"]
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 POLICY_ORDER = ["FCFS", "GO", "RE-NOCM", "RE"]
@@ -83,7 +83,7 @@ def boot_ci(x, n=2000, seed=0):
 
 
 # =============================================================================
-# Experiment 1 — testbed
+# Experiment 1: testbed
 # =============================================================================
 def exp1():
     p = os.path.join(RES, "exp1_screening.csv")
@@ -91,7 +91,7 @@ def exp1():
         return
     d_all = pd.read_csv(p)
     d = d_all[d_all.variant == "paper"]
-    md("## Experiment 1 — Testbed (replication of Section 5.1)")
+    md("## Experiment 1: Testbed (replication of Section 5.1)")
     md(f"Screening design: 8 factors x 2 levels, {d.rep.nunique()} replicates, "
        f"{len(d)} instances solved; CPU limit {d.cpu.max():.0f}s "
        f"({int(d.hit_limit.sum())} instances reached it). "
@@ -190,7 +190,7 @@ def exp1_grid():
     if not os.path.exists(p):
         return
     d_all = pd.read_csv(p)
-    md("\n## Experiment 1b — CPU grid (replication of Table 2, Figs. 3-5)")
+    md("\n## Experiment 1b: CPU grid (replication of Table 2, Figs. 3-5)")
     if (d_all.variant == "corrected").sum() >= 150:
         cmp_ = d_all.groupby(["variant", "fresh_cov"]).agg(cpu=("cpu", "mean"), hit=("hit_limit", "mean"),
                                                             fill=("fill_rate", "mean")).round(3)
@@ -264,7 +264,7 @@ def exp2():
     if not os.path.exists(p):
         return
     d = pd.read_csv(p)
-    md("\n## Experiment 2 — Scenario comparison (replication of Section 5.2, Figs. 6-8)")
+    md("\n## Experiment 2: Scenario comparison (replication of Section 5.2, Figs. 6-8)")
     md(f"{d.seed.nunique()} synthetic companies x {d.day.nunique()} days, "
        f"{d.n_orders.mean():.0f} orders/day on average, "
        f"{d.scarce.mean():.0%} scarcity days.")
@@ -323,7 +323,7 @@ def exp3a():
     if not os.path.exists(p):
         return
     d = pd.read_csv(p)
-    md("\n## Experiment 3a — MILP as printed vs corrected MILP (inside the DSS)")
+    md("\n## Experiment 3a: MILP as printed vs corrected MILP (inside the DSS)")
     t = d.groupby(["cfg_variant", "policy"])[["fill_rate", "avg_sl_D", "pct_cust_full", "min_sl_D",
                                                "over_units", "unserved_units", "cpu"]].mean() \
         .reindex(["GO", "RE-NOCM", "RE"], level=1).round(3)
@@ -347,7 +347,7 @@ def exp3a_testbed():
     if not os.path.exists(p):
         return
     d = pd.read_csv(p)
-    md("\n## Experiment 3a (testbed) — printed vs corrected MILP on identical instances")
+    md("\n## Experiment 3a (testbed): printed vs corrected MILP on identical instances")
     k = ["n_orders", "n_products", "order_size", "homog", "sl_var", "stock_cov", "fresh_cov", "rep", "alpha"]
     w = d.pivot_table(index=k, columns="variant", values=["fill_rate", "min_sl_true", "min_sl_model", "cpu"])
     s = pd.DataFrame(dict(
@@ -382,7 +382,7 @@ def exp3_sweeps():
     p = os.path.join(RES, "sim_3b.csv")
     if os.path.exists(p):
         d = pd.read_csv(p)
-        md("\n## Experiment 3b — SATP variants (future research line of the paper)")
+        md("\n## Experiment 3b: SATP variants (future research line of the paper)")
         d["satp_cfg"] = np.where(d.cfg_satp == "none", "none", d.cfg_satp + " b=" + d.cfg_beta.astype(str))
         t = d.groupby(["policy", "cfg_satp", "cfg_beta"])[["fill_rate", "avg_sl_D", "pct_cust_full", "min_sl_D",
                                                            "sd_sl_D"]].mean().round(4)
@@ -405,7 +405,7 @@ def exp3_sweeps():
     p = os.path.join(RES, "sim_3c.csv")
     if os.path.exists(p):
         d = pd.read_csv(p)
-        md("\n## Experiment 3c — Number of iterations per day")
+        md("\n## Experiment 3c: Number of iterations per day")
         t = d.groupby(["policy", "T"])[["fill_rate", "avg_sl_D", "pct_cust_full", "n_mod", "cpu"]].mean().round(4)
         t.to_csv(os.path.join(TAB, "T8_iterations.csv"))
         md(md_table(t.reset_index(), 4))
@@ -420,7 +420,7 @@ def exp3_sweeps():
     p = os.path.join(RES, "sim_3d.csv")
     if os.path.exists(p):
         d = pd.read_csv(p)
-        md("\n## Experiment 3d — Weight alpha")
+        md("\n## Experiment 3d: Weight alpha")
         t = d.groupby(["policy", "cfg_alpha"])[["fill_rate", "avg_sl_D", "min_sl_D", "sd_sl_D",
                                                 "fill_food", "fill_horeca"]].mean().round(4)
         t.to_csv(os.path.join(TAB, "T9_alpha.csv"))
@@ -438,7 +438,7 @@ def exp3_sweeps():
     p = os.path.join(RES, "sim_3e.csv")
     if os.path.exists(p):
         d = pd.read_csv(p)
-        md("\n## Experiment 3e — OCM: acceptance probability and global visibility")
+        md("\n## Experiment 3e: OCM, acceptance probability and global visibility")
         t = d.groupby(["cfg_global_visibility", "cfg_p_accept"])[["fill_rate", "avg_sl_D", "pct_cust_full",
                                                                   "n_mod", "n_subst"]].mean().round(4)
         t.to_csv(os.path.join(TAB, "T10_ocm.csv"))
@@ -459,7 +459,7 @@ def exp3f():
     if not os.path.exists(p):
         return
     d = pd.read_csv(p)
-    md("\n## Experiment 3f — Objective weighted by orders (paper) vs by volume")
+    md("\n## Experiment 3f: Objective weighted by orders (paper) vs by volume")
     t = d.groupby(["policy", "cfg_weight"])[["fill_rate", "avg_sl_D", "avg_sl", "fill_food", "fill_horeca",
                                              "min_sl_D", "sd_sl_D"]].mean().round(4)
     t.to_csv(os.path.join(TAB, "T11_weight.csv"))
@@ -479,7 +479,7 @@ def exp3f():
 
 
 if __name__ == "__main__":
-    md("# Results summary (auto-generated by experiments/analyze.py)\n")
+    md("# Results summary (generated by experiments/analyze.py)\n")
     exp1()
     exp1_grid()
     exp2()
