@@ -1,5 +1,5 @@
 """
-MILP model for (batch) order promising — Framinan et al. (2024), Section 4.1.2.
+MILP model for (batch) order promising (Framinan et al., 2024, Section 4.1.2).
 
     min  alpha * (1/|I|) * sum_i P_i  -  (1 - alpha) * L                       (1)
     s.t. sum_i X_il                    <= s_l                    for all l     (2)
@@ -243,7 +243,7 @@ def solve_order_promising(orders, batches, hist, alpha=0.5, variant="paper",
 
 def true_min_service_level(orders, served, hist):
     """Min service level over customers in the instance, computed from what is
-    really shipped (o_ij of served orders only) — used to audit the model's L."""
+    really shipped (o_ij of served orders only), used to audit the model's L."""
     served = set(served)
     by_cust = defaultdict(lambda: [0.0, 0.0])
     for o in orders:
